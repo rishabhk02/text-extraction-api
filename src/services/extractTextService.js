@@ -2,6 +2,7 @@ const fs = require("fs");
 const pdfParse = require("pdf-parse");
 const Tesseract = require("tesseract.js");
 
+// Function to format the extracted text into HTML-like structure
 const formatText = (text) => {
   const lines = text.split("\n");
   let formattedText = "";
@@ -22,12 +23,14 @@ const formatText = (text) => {
   return formattedText;
 };
 
+// Function to extract text from a PDF file
 const extractTextFromPDF = async (filePath) => {
   const dataBuffer = fs.readFileSync(filePath);
   const data = await pdfParse(dataBuffer);
   return formatText(data.text);
 };
 
+// Function to extract text from an image file
 const extractTextFromImage = async (filePath) => {
   const { data: { text } } = await Tesseract.recognize(filePath, "eng");
   return formatText(text);
